@@ -17,12 +17,17 @@
 
     "permissions": [
         "tabs",
-        "http://*.kaola.com/"
+        "http://*.kaola.com/",
+        "http://localhost:3000/*"
     ],
 
     "content_scripts": [
         {
-            "matches": ["http://*.kaola.com/*"],
+            "matches": [
+                "http://*.kaola.com/*",
+                "http://localhost:3000/*"
+            ],
+            
             "js": [
                 "./src/js/libs/jquery-2.1.1.js",
                 "./src/js/comment.js",

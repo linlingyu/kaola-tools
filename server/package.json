@@ -1,0 +1,13 @@
+{
+    "name": "application-name",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "NODE_ENV=production node app.js"
+    },
+    "dependencies": {
+        "express": "*",
+        "express-generator": "*",
+        "ejs": "*"
+    }
+}

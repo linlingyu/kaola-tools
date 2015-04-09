@@ -64,7 +64,9 @@ void function(){
     //如果是detail页
     if(~location.href.indexOf('product')){
         var params = util.parameters(location.search),
-            comment = new window._component_.Comment(params);
+            comment = new window._component_.Comment(params),
+            $form = $('<form name="myform" method="post" action="http://localhost:3000/kaola"><input name="datas" type="hidden"/></form>');
+        $(document.body).append($form);
         $.Deferred(function(dtd){
             // document.body.scrollTop = 816;
             setTimeout(function(){
@@ -99,17 +101,14 @@ void function(){
             return dtd.promise();
         }).then(function(){
             //发送数据到background
-            var dtd = $.Deferred(),
-                datas = JSON.stringify(comment.getData());
-            chrome.runtime.sendMessage(null, {type: 'kaola:detail:savedata', datas: datas}, function(response){
-                dtd.resolve();
-            });
-            return dtd.promise();
-        }).then(function(){
-            //通知调用下一个
-            alert('++ complete ++');
-            // chrome.runtime.sendMessage(null, {type: 'kaola:detail:next'}, function(response){});
+            var datas = JSON.stringify(comment.getData());
+            $form.find('input').val(datas);
+            $form.get(0).submit();
         });
+    }
+
+    if(~location.href.indexOf('localhost:3000/kaola')){
+        chrome.runtime.sendMessage(null, {type: 'kaola:detail:next'}, function(response){});
     }
 
 }();

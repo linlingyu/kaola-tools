@@ -22,42 +22,18 @@ requirejs(['jquery', 'modules/FileHelper'], function($, fileHelper){
     chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse){
         if(msg.type === 'kaola:detail:next'){
             $.Deferred(function(dtd){
-                chrome.tabs.getSelected(windowId, function(tab){
-                    dtd.resolve(tab.id);
+                chrome.tabs.query({url: 'http://localhost:3000/*'}, function(array){
+                    dtd.resolve(array);
                 });
-            }).then(function(tabId){
-                var dtd = $.Deferred();
-                chrome.tabs.remove(tabId, function(){
-                    dtd.resolve();
+            }).then(function(array){
+                array.forEach(function(tab){
+                    chrome.tabs.remove(tab.id);
                 });
-                return dtd.promise();
             }).then(function(){
                 // 向内容页发送消息
                 chrome.tabs.sendMessage(tabId, {
                     type: 'kaola:send:next'
                 }, function(response){});
-            });
-        }
-
-        if(msg.type === 'kaola:detail:savedata'){
-            var product = JSON.parse(msg.datas),
-                filePath = '/kaola/' + product.areaId;
-            $.Deferred(function(dtd){
-                fileHelper.read(filePath, {success: function(txt){
-                    dtd.resolve(txt);
-                }});
-            }).then(function(txt){
-                var dtd = $.Deferred();
-                if(txt){
-                    dtd.resolve();
-                }else{
-                    fileHelper.write(filePath, msg.datas, {encoding: 'utf-8', success: function(){
-                        dtd.resolve();
-                    }});
-                }
-                return dtd.promise();
-            }).then(function(){
-                sendResponse({error: null});
             });
         }
     });
