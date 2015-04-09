@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fileSaver = require('../core/FileSaver').getInstance();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/kaola', function(req, res, next){
     var params = req.body;
-    console.log(params);
+    fileSaver.save(params.datas);
     res.json({error: null});
 });
 
