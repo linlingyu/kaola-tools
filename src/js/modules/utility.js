@@ -20,6 +20,18 @@ define(function(require, exports, module){
                 }
             }
             return source;
+        },
+
+        parameters: function(search){
+            var params = search.split('?')[1],
+                ret = {};
+            if(!params){return;}
+            params = params.split('&');
+            params.forEach(function(item){
+                item = item.split('=');
+                ret[item[0]] = item[1];
+            });
+            return ret;
         }
     };
 });

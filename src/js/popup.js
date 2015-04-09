@@ -7,12 +7,12 @@ requirejs(['jquery'], function($){
             callback();
         });
     }
-    //
     $('.app-menu .item').click(function(evt){
-        var typeId = this.id;
         chrome.runtime.getBackgroundPage(function(win){
-            win.app.run();
-            window.close();
+            getWindowId(function(){
+                win.app.run(windowId);
+                window.close();
+            });
         });
     });
 });
