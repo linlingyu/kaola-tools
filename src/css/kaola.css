@@ -1,0 +1,25 @@
+.kaola-mark {
+    position: absolute;
+    background: rgba(0,0,0,.5);
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1000;
+}
+.kaola-mark>.wrapper {
+    position: relative;
+    width: 160px;
+    margin: 0 auto;
+    background: white;
+    padding: 10px;
+}
+.kaola-mark>.wrapper>progress {
+    width: 160px;
+    border: 1px solid #0064B4;  
+    background-color:#e6e6e6;
+    color: #0064B4; /*IE10*/
+}
+progress::-moz-progress-bar { background: #0064B4; }
+progress::-webkit-progress-bar { background: #e6e6e6; }
+progress::-webkit-progress-value  { background: #0064B4; }

@@ -25,9 +25,10 @@
             "matches": ["http://*.kaola.com/*"],
             "js": [
                 "./src/js/libs/jquery-2.1.1.js",
+                "./src/js/comment.js",
                 "./src/js/detail.js"
             ],
-            "css": []
+            "css": ["./src/css/kaola.css"]
         }
     ],
 
