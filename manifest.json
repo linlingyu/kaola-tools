@@ -1,0 +1,35 @@
+{
+    "name": "kaola",
+    "version": "1.0.1",
+    "manifest_version": 2,
+    "description": "kaola-收集用户信息",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "./src/popup.html"
+    },
+
+    "background" : {
+        "persistent": true,//这里设成false会造成后台页面接受不到msg
+        // "scripts": ["./src/js/background.js"]
+        "page": "./src/background.html"
+    },
+
+    "permissions": [
+        "tabs",
+        "http://*.kaola.com/"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["http://*.kaola.com/*"],
+            "js": [
+                "./src/js/libs/jquery-2.1.1.js",
+                "./src/js/detail.js"
+            ],
+            "css": []
+        }
+    ],
+
+    "icons": {"128": "icon.png"}
+}
