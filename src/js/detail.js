@@ -49,7 +49,7 @@ void function(){
                 $('li.pro-item>a').each(function(){
                     array.push(this);
                 });
-                array = array.slice(0, 2);
+                // array = array.slice(0, 2);
                 $progress.prop('max', array.length);//设置进度条最大值
                 app.next();
             }

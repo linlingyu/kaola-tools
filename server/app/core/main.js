@@ -1,31 +1,35 @@
 void function(){
     var fs = require('fs'),
         path = require('path'),
-        array = [1];
+        util = require('util'),
+        array = '1,2,3,4,5'.split(',');
+
     array.forEach(function(item){
         var filePath = path.join(__dirname, 'file-' + item),
+            outputPath = path.join(__dirname, 'output-' + item),
             content = fs.readFileSync(filePath).toString(),
-            products = JSON.parse(content),
-            ret = [];
-        ret.push('大类：' + products.areaName);
-        products.products.forEach(function(p){
-            ret.push('  产品：' + p.productName);
-            ret.push('  中评：');
-            p.medium.forEach(function(m){
-                ret.push('      用户ID：' + m.name);
-                ret.push('      评  语：' + m.origin);
-                ret.push('     ' + m.answer);
-                ret.push(' ');
+            products = JSON.parse(content);
+        // 
+        var tpl_class = util.format('大类：%s\r\n%s', products.areaName),
+            productArray = [];
+        products.products.forEach(function(product){
+            var tpl_product = '   产品：%s\r\n   中评：\r\n%s\r\n   差评：\r\n%s',
+                tpl_comment = '       用户ID：%s\r\n       评  语：%s\r\n       %s',
+                mediumArray = [],
+                badArray = [];
+            tpl_product = util.format(tpl_product, product.productName);
+
+            product.medium.forEach(function(m){
+                mediumArray.push(util.format(tpl_comment, m.name, m.origin || '无', m.answer || '客服回复：无'));
             });
-            ret.push('  差评：');
-            p.bad.forEach(function(b){
-                ret.push('      用户ID：' + b.name);
-                ret.push('      评  语：' + b.origin);
-                ret.push('     ' + b.answer);
-                ret.push(' ');
+            product.bad.forEach(function(b){
+                badArray.push(util.format(tpl_comment, b.name, b.origin || '无', b.answer || '客服回复：无'));
             });
-            ret.push('\n', '\n');
+            productArray.push(util.format(tpl_product, mediumArray.join('\r\n\r\n'), badArray.join('\r\n\r\n')));
         });
-        console.log(ret.join('\n'));
+
+        var content = util.format(tpl_class, productArray.join('\r\n\r\n'));
+        fs.writeFileSync(outputPath, content, {encoding: 'utf-8'});
     });
+    console.log('--- complete ---');
 }();

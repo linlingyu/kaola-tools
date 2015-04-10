@@ -1,4 +1,4 @@
-requirejs(['jquery', 'modules/FileHelper'], function($, fileHelper){
+requirejs(['jquery'], function($){
     var tabId = 0,
         windowId = 0,
         app = window.app = {
@@ -10,11 +10,6 @@ requirejs(['jquery', 'modules/FileHelper'], function($, fileHelper){
                         type: 'kaola:click:collect'
                     }, function(response){});
                 });
-            },
-
-            open: function(){
-                var url = chrome.extension.getURL('src/options.html');
-                chrome.tabs.create({url: url}, function(tab){});
             }
         };
     
